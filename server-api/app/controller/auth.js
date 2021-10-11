@@ -25,7 +25,7 @@ class AuthController extends BaseController {
      * 获取token
      */
     async changePassword() {
-        const { ctx,app, service } = this;
+        const { ctx, app, service } = this;
         let { oldPassword, newPassword, rePassword, imageCode } = this.validate({
             oldPassword: "缺少参数 oldPassword",
             newPassword: "缺少参数 newPassword",
@@ -54,7 +54,12 @@ class AuthController extends BaseController {
      * 刷新token
      */
     async refreshToken() {
-
+        const { service } = this;
+        let { refreshToken } = this.validate({
+            refreshToken: "缺少参数 refreshToken",
+        });
+        let token = await service.auth.refreshToken(refreshToken);
+        this.result(token);
     }
 }
 

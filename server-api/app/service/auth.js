@@ -5,7 +5,7 @@ class AuthService extends Service {
      * 获取唯一标识
      */
     async getUserUid() {
-        const { ctx, app } = this;
+        const { ctx } = this;
         let accessToken = ctx.request.headers.authorization;
         if (!accessToken) {
             throw {
@@ -34,7 +34,7 @@ class AuthService extends Service {
         if (app.utils.validator.isEmpty(query)) {
             throw "参数错误"
         }
-        let user = await this.ctx.model.User.findOne({ where: query });
+        let user = await ctx.model.User.findOne({ where: query });
         if (!user) {
             throw {
                 message: "用户不存在",
@@ -65,20 +65,14 @@ class AuthService extends Service {
                 code: 7003
             };;
         }
-        let expires_in = 60 * 60 * 2;
-        let access_token = await app.utils.uuid.v5();
-        let refresh_token = await app.utils.uuid.v5();
-        //存token
-        await ctx.service.redis.set(access_token, { uid: user.uid, roles: ["system"] }, expires_in);
-        await ctx.service.redis.set(refresh_token, user.uid, 60 * 60 * 24 * 7);
-
-        return {
-            access_token,
-            expires_in,
-            refresh_token
-        }
+        return await service.auth.setToken(user.uid)
     }
 
+    /**
+     * 清空token
+     * @param {*} accessToken 
+     * @returns 
+     */
     async offToken(accessToken) {
         const { ctx, app } = this;
         accessToken = accessToken || ctx.request.headers.authorization;
@@ -90,6 +84,46 @@ class AuthService extends Service {
 
         return true;
     }
+
+    /**
+     * 刷新token
+     * @param {*} refresh_token 
+     * @returns 
+     */
+    async refreshToken(refreshToken) {
+        const { ctx, service } = this;
+        let uid = await ctx.service.redis.get(refreshToken);
+        if (!uid) {
+            throw {
+                message: "登录已过期，令牌已失效",
+                code: 7403
+            };
+        }
+        return await service.auth.setToken(uid)
+    }
+
+    /**
+     * 缓存token
+     */
+    async setToken(uid, last_refresh_token) {
+        const { ctx, app } = this;
+        let expires_in = 60 * 60 * 2;
+        let access_token = await app.utils.uuid.v5();
+        let refresh_token = last_refresh_token || await app.utils.uuid.v5();
+        //查询用户权限
+        let roles = ["system"];
+        //存token
+        await ctx.service.redis.set(access_token, { uid, roles }, expires_in);
+        //缓存新令牌
+        if (refresh_token !== last_refresh_token) await ctx.service.redis.set(refresh_token, uid, 60 * 60 * 24 * 7);
+
+        return {
+            access_token,
+            expires_in,
+            refresh_token
+        }
+    }
+
 }
 
 module.exports = AuthService;

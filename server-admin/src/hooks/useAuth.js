@@ -6,19 +6,27 @@ export default () => {
     let [token, setToken] = useGlobalState("ACCESS_TOKEN", { storage: 'local' });
     let [userInfo, setUserInfo] = useGlobalState("ACCESS_USERINFO", { storage: 'local' });
 
-    const init = () => {
-        if (token) {
-            updateApiState({ token });
-        }
-    };
-
     //登录方法
     const login = async (params) => {
-        console.log("开始登录=", params);
         let result = await authApi.login(params);
         updateApiState({ token: result });
         setToken(result);
         history.replace("/");
+    }
+
+    //刷新token
+    const refresh = async () => {
+        if (token) {
+            // updateApiState({ token });
+            let result = await authApi.refreshToken({
+                refreshToken: token?.refresh_token
+            });
+            updateApiState({ token: result });
+            setToken(result);
+        } else {
+            history.replace("/login");
+        }
+        return true;
     }
 
     const logout = async (flag) => {
@@ -30,11 +38,11 @@ export default () => {
         history.replace('/login');
     };
 
-    const password = async (params,callback) => {
+    const password = async (params, callback) => {
         await authApi.changePassword(params);
-        callback&&callback();
+        callback && callback();
         logout();
     }
 
-    return { token, userInfo, init, login, password, logout };
+    return { token, userInfo, refresh, login, password, logout };
 };

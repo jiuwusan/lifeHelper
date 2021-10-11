@@ -1,6 +1,7 @@
 import styles from "./style.less"
 import KdTable from "@/components/KdTable"
-import { Button, Space, Input, Modal } from 'antd';
+import Smage from "@/components/Smage"
+import { Button, Space, Input, Modal, Tag } from 'antd';
 import Editor from './Editor';
 import { useState } from 'react';
 import { cookingApi } from '@/api'
@@ -46,16 +47,37 @@ export default (props) => {
 
     const columns = [
         {
-            title: '图片',
+            title: '封面',
             dataIndex: 'cover',
             key: 'cover',
             align: 'center',
+            render: (text, record) => (
+                <Smage className={styles.cover} src={text}></Smage>
+            )
         },
         {
             title: '名称',
             dataIndex: 'name',
             key: 'name',
             align: 'center',
+        },
+        {
+            title: '类别',
+            dataIndex: 'type',
+            key: 'type',
+            align: 'center',
+            render: (text) => {
+                switch (text) {
+                    case "01":
+                        return <Tag color="green">素菜</Tag>;
+                    case "02":
+                        return <Tag color="cyan">荤菜</Tag>;
+                    case "03":
+                        return <Tag color="blue">汤菜</Tag>;
+                    default:
+                        return <Tag color="red">未知</Tag>;
+                }
+            }
         },
         {
             title: '操作',
@@ -75,7 +97,7 @@ export default (props) => {
             <KdTable rowKey="uid"
                 reloadKey={reloadKey}
                 searchBar={({ FormItem }) => <>
-                    <FormItem name='createAt' label="名称">
+                    <FormItem name='createAt' label="关键字">
                         <Input />
                     </FormItem>
                 </>}

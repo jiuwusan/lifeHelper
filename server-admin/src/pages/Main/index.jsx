@@ -1,5 +1,5 @@
 import styles from './style.less';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const formatData = (str) => {
     var newstr = new Date(str);
@@ -21,16 +21,21 @@ const formatData = (str) => {
 export default (props) => {
     const [currentTime, setCurrentTime] = useState(Date.now());
     const [datetime, setTime] = useState("");
+    const timeID = useRef("");
+
     useEffect(() => {
         getTime();
+        return () => {
+            timeID.current && clearInterval(timeID.current);
+        }
     }, [datetime]);
 
     const getTime = () => {
-        const timeID = setInterval(() => {
+        timeID.current = setInterval(() => {
             setCurrentTime(Date.now());
             const result = formatData(currentTime);
             setTime(result);
-            clearInterval(timeID);
+            clearInterval(timeID.current);
         }, 1000);
     };
 

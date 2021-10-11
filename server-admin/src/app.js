@@ -1,14 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useAuth from '@/hooks/useAuth';
 const Root = (props) => {
-    const { init } = useAuth();
+    const { refresh } = useAuth();
+    const [initialize, setInitialize] = useState(false);
 
-    useState(() => {
+    useState(async () => {
         //初始化授权信息
-        init();
+        await refresh();
+        setInitialize(true);
     })
 
-    return props.children;
+    if (initialize) {
+        //挂载子组件
+        return props.children;
+    } else {
+        return null;
+    }
 };
 
 export function rootContainer(container) {

@@ -20,7 +20,7 @@ module.exports = app => {
     await app.model.sync({ alter: true });
   });
 
-  require('./router/diary')(app);
+  require('./router/cooking')(app);
   require('./router/auth')(app);
   require('./router/file')(app);
   require('./router/config')(app);

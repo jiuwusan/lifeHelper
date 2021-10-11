@@ -2,7 +2,7 @@
 
 const BaseController = require('../../core/base');
 
-class DiaryController extends BaseController {
+class CookingController extends BaseController {
 
     /**
      * 创建
@@ -10,16 +10,18 @@ class DiaryController extends BaseController {
     async save() {
         const { ctx, app } = this;
         let params = this.validate({
-            content: "内容不能为空",
-            overview: "概述不能为空"
+            type: "类别 不能为空",
+            name: "名称 不能为空",
+            cover: "图片 不能为空",
+            remark: "备注 不能为空",
         });
-        let saveData = this.genParams(params, ["overview", "content", "image", "adjunct"]);
+        let saveData = this.genParams(params, ["type", "name", "cover", "image", "adjunct", "remark"]);
         let { uid } = params;
         let res;
         if (uid) {
-            res = await ctx.model.Diary.update(saveData, { where: { uid } });
+            res = await ctx.model.Cooking.update(saveData, { where: { uid } });
         } else {
-            res = await ctx.model.Diary.create(saveData);
+            res = await ctx.model.Cooking.create(saveData);
         }
         this.result(res);
     }
@@ -30,7 +32,7 @@ class DiaryController extends BaseController {
     async findById() {
         const { ctx } = this;
         let params = this.validate({ uid: "uid不能为空" });
-        let result = await ctx.model.Diary.findOne({ where: { uid: params.uid } });
+        let result = await ctx.model.Cooking.findOne({ where: { uid: params.uid } });
         if (!result) {
             this.error("数据不存在");
         }
@@ -46,7 +48,7 @@ class DiaryController extends BaseController {
             page: "page 为必要参数",
             pageSize: "pageSize 为必要参数"
         });
-        let querySql = `select d.*,DATE_FORMAT(d.created_at,'%Y-%m-%d %H:%i') as created_at_ftt from diary d where d.deleted='00'`;
+        let querySql = `select d.*,DATE_FORMAT(d.created_at,'%Y-%m-%d %H:%i') as created_at_ftt from cooking d where d.deleted='00'`;
         let orderBy = `order by d.created_at desc`
         let replacements = {};
         if (startTime && endTime) {
@@ -70,10 +72,10 @@ class DiaryController extends BaseController {
     async delById() {
         const { ctx } = this;
         let { uid } = this.validate({ uid: "uid不能为空" });
-        let result = await ctx.model.Diary.update({ deleted: "01" }, { where: { uid } });
+        let result = await ctx.model.Cooking.update({ deleted: "01" }, { where: { uid } });
         this.result(result);
     }
 
 }
 
-module.exports = DiaryController;
+module.exports = CookingController;

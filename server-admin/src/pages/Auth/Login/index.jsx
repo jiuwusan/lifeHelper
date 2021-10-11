@@ -4,12 +4,10 @@ import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
 import ImgCode from '@/components/ImgCode';
 import useAuth from '@/hooks/useAuth';
-import useProfile from '@/hooks/useProfile';
 import Smage from '@/components/Smage';
 
 export default (props) => {
     const [loginForm] = Form.useForm();
-    const [profile, setProfile] = useProfile();
     const { login } = useAuth();
     const [refreshKey, setRefreshKey] = useState();
 
@@ -23,9 +21,9 @@ export default (props) => {
     }
 
     return (<div className={styles.loginBox}>
-        <Smage cover className={styles.bg} src={profile?.loginBg}></Smage>
+        <Smage cover className={styles.bg} src="/assets/admin/login-bg.jpg"></Smage>
         <div className={styles.formBox}>
-            <div className={styles.title}>欢迎登录 {profile?.name} 管理系统</div>
+            <div className={styles.title}>欢迎登录后台管理系统</div>
             <Form className={styles.loginForm} size="large" form={loginForm} >
                 <Form.Item
                     name="username"

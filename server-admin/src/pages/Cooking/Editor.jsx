@@ -50,12 +50,17 @@ export default (props) => {
                 <Input rows={2} />
             </FormItem>
 
-            <FormItem rules={[{ required: true }]} name='cover' label="图片">
+            <FormItem rules={[{ required: true }]} name='cover' label="封面">
+                <UploadImage maxCount={1} folder="cooking" />
+            </FormItem>
+
+
+            <FormItem name='image' label="图片">
                 <UploadImage folder="cooking" />
             </FormItem>
 
             <FormItem name='adjunct' label="附件">
-                <UploadFile noren="1" folder="cooking" />
+                <UploadFile noren="1" folder="cooking_adjunct" />
             </FormItem>
 
             <FormItem rules={[{ required: true }]} name='remark' label="备注">

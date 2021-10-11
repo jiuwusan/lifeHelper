@@ -70,7 +70,8 @@ export const authApi = genApi({
     },
     logout: 'GET /auth/logout',
     changePassword: 'POST /auth/changePassword',
-    imageCode: 'GET /auth/imageCode'
+    imageCode: 'GET /auth/imageCode',
+    refreshToken: 'POST /auth/refreshToken',
 });
 
 export const validApi = genApi({
@@ -92,8 +93,8 @@ export const configApi = genApi({
 });
 
 export const cookingApi = genApi({
-    save: "POST /admin/diary/save",
-    findById: "/admin/diary/findById",
-    pageQuery: "POST /admin/diary/pageQuery",
-    delById: "POST /admin/diary/delById",
+    save: "POST /admin/cooking/save",
+    findById: "/admin/cooking/findById",
+    pageQuery: "POST /admin/cooking/pageQuery",
+    delById: "POST /admin/cooking/delById",
 });
