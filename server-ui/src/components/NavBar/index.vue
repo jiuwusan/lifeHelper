@@ -49,7 +49,7 @@ export default {
       if (this.isAdmin) {
         this.$router.replace("/");
       } else {
-        this.$router.push("/admin");
+        this.$router.replace("/admin");
       }
     },
   },
