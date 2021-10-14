@@ -8,7 +8,7 @@
     -webkit-line-clamp: @line;
 }
 
-.box(){
+.box() {
     box-sizing: border-box;
 }
 
@@ -40,4 +40,13 @@
     /* display: box; */
     display: flexbox;
     display: flex;
+}
+
+//点击
+.active() {
+    cursor: pointer;
+
+    &:active {
+        opacity: 0.65;
+    }
 }

@@ -7,5 +7,5 @@ module.exports = app => {
     router.post('/admin/cooking/pageQuery', authenticate(), controller.admin.cooking.pageQuery);
     router.post('/admin/cooking/delById', authenticate(), controller.admin.cooking.delById);
     // C端
-    // router.post('/custom/cooking/query', controller.custom.cooking.query);
+    router.post('/custom/cooking/pageQuery', controller.custom.cooking.pageQuery);
 };

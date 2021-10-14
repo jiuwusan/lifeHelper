@@ -53,7 +53,6 @@ export default {
           }
           break;
       }
-      console.log("fullSrc--", fullSrc);
       this.fullSrc = fullSrc;
     },
   },
@@ -63,5 +62,6 @@ export default {
 <style lang="less" scoped>
 .smage {
   overflow: hidden;
+  object-fit: cover;
 }
 </style>

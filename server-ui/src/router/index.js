@@ -10,7 +10,7 @@ const routes = [
     }
   },
   {
-    path: '/',
+    path: '/cooking',
     name: 'cooking',
     component: () => import('@/views/Cooking'),
     meta: {
@@ -24,6 +24,14 @@ const routes = [
     component: () => import('@/views/admin/Home'),
     meta: {
       title: "管理-首页"
+    }
+  },
+  {
+    path: '/admin/cooking',
+    name: 'AdminCooking',
+    component: () => import('@/views/admin/Cooking'),
+    meta: {
+      title: "厨房"
     }
   },
 ]

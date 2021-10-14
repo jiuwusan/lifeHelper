@@ -1,5 +1,5 @@
 <template>
-  <van-nav-bar v-if="visible" @click-left="leftEvent" @click-right="rightEvent">
+  <van-nav-bar v-if="visible" @click-left="leftEvent" @click-right="rightEvent" fixed placeholder z-index="99999">
     <template #left v-if="!hidden">
       <van-icon name="arrow-left" size="18" class="btn" />返回
     </template>
@@ -32,6 +32,7 @@ export default {
     $route: {
       immediate: true,
       handler(to) {
+        console.log("to--",to);
         this.hidden = to.path === "/" || to.path === "/admin";
         this.title = to.meta.title;
         this.isAdmin = to.path.indexOf("/admin") === 0;

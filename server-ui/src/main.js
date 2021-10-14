@@ -3,8 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Smage from "@/components/Smage";
+import Icon from "@/components/Icon";
 const app = createApp(App);
+
 app.component('Smage', Smage);
+app.component('Icon', Icon);
 
 //路由
 router.beforeEach((to, from, next) => {
