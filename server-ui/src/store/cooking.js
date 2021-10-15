@@ -12,7 +12,8 @@ const cooking = {
         totalSize: 0,
         datalist: { left: [], right: [] },
         query: {},
-        recruitScrollY: 0
+        recruitScrollY: 0,
+        zoneList: []
     }),
     mutations: {
         update(state, payload = {}) {
@@ -52,6 +53,31 @@ const cooking = {
             page = result?.page + 1;
             pageSize = result?.pageSize;
             commit('update', { page, pageSize, totalSize, datalist })
+        },
+        async zoneQuery({ commit }) {
+            let zoneList = await cookingApi.zoneQuery() || [];
+            commit('update', { zoneList })
+        },
+        async append({ state = {}, commit }, params = {}) {
+            let { datalist } = state;
+            let { uid, checked } = params;
+            await cookingApi[checked === "01" ? "append" : "remove"]({ uid });
+            //遍历
+            for (const key in datalist) {
+                for (let i = 0; i < datalist[key].length; i++) {
+                    if (datalist[key][i].uid === uid) {
+                        datalist[key][i].checked = checked;
+                        uid = null;
+                        break;
+                    }
+                }
+                if (!uid) break;
+            }
+            commit('update', { datalist });
+        },
+        async reload({ commit, dispatch }) {
+            commit('update', { page: 1, totalSize: 0, datalist: { left: [], right: [] } });
+            dispatch("pageQuery", {});
         },
         async setQuery({ state, commit, dispatch }, newQuery = {}) {
             let { query = {} } = state;

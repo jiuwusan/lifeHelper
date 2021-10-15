@@ -54,15 +54,25 @@ class BaseController extends Controller {
      * @param {*} formData 
      */
     genParams(allParams, keys) {
+        const getDataType = (obj) => {
+            let dataType = Object.prototype.toString.call(obj);
+            if (dataType === "[object Array]" && dataType.length > 0)
+                if (Object.prototype.toString.call(obj[0]) === "[object Object]")
+                    return "[object ObjectArray]";
+            return dataType;
+        }
         let params = {};
         for (const key of keys) {
             params[key] = allParams[key];
-            switch (Object.prototype.toString.call(allParams[key])) {
-                case "[object Array]":
-                    params[key] = allParams[key].join(",");
+            switch (getDataType(allParams[key])) {
+                case "[object ObjectArray]":
+                    params[key] = JSON.stringify(allParams[key]);
                     break;
                 case "[object Object]":
                     params[key] = JSON.stringify(allParams[key]);
+                    break;
+                case "[object Array]":
+                    params[key] = allParams[key].join(",");
                     break;
                 default:
                     params[key] = allParams[key];
@@ -74,3 +84,4 @@ class BaseController extends Controller {
 }
 
 module.exports = BaseController;
+

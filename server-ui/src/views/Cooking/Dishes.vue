@@ -8,9 +8,9 @@
           <Icon class="icon" name="eat" />
           <span>{{ fttData.sum || 0 }}</span>
         </div>
-        <div class="add-btn">
+        <div class="add-btn" @click="append">
           <Icon class="icon" name="cooking" />
-          <div class="checked" v-show="fttData.checked">
+          <div class="checked" v-show="fttData.checked === '01'">
             <Icon class="icon" name="checked" />
           </div>
         </div>
@@ -42,6 +42,13 @@ export default {
   methods: {
     setFttData(value) {
       this.fttData = value;
+    },
+    append() {
+      let { uid, checked } = this.fttData;
+      this.$store.dispatch("cooking/append", {
+        uid,
+        checked: checked === "00" ? "01" : "00",
+      });
     },
   },
 };

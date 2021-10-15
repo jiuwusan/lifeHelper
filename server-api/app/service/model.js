@@ -46,6 +46,14 @@ class ModelService extends Service {
         };
     }
 
+    /**
+     * 执行sql
+     */
+    async execute(sql, replacements, options = {}) {
+        const { ctx } = this;
+        return await ctx.model.query(sql,
+            { replacements, ...options });
+    }
 
 }
 

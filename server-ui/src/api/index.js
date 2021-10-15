@@ -29,6 +29,14 @@ export const configApi = apiv1.genApi({
 });
 
 export const cookingApi = apiv1.genApi({
-    pageQuery: "post /custom/cooking/pageQuery"
+    pageQuery: "post /custom/cooking/pageQuery",
+    append: "post /custom/cooking/append",
+    remove: "post /custom/cooking/remove",
+    zoneQuery: "post /custom/cooking/zoneQuery",
+    submit: "post /custom/cooking/submit",
+    status: "post /custom/cooking/status",
+    delete: "post /custom/cooking/delete",
+    pageQueryCuisine: "post /custom/cooking/pageQueryCuisine",
+    random: "post /custom/cooking/random"
 });
 

@@ -18,28 +18,24 @@
             v-model="date"
             is-link
             readonly
-            name="datetimePicker"
+            name="date"
             label="日期选择"
           >
             <template #input>
               <DatetimePicker v-model:value="date" placeholder="点击选择日期" />
             </template>
           </van-field>
-          <van-field name="radio" label="时刻选择">
+          <van-field name="moment" label="时刻选择">
             <template #input>
               <van-radio-group v-model="moment" direction="horizontal">
-                <van-radio name="1">早餐</van-radio>
-                <van-radio name="2">午餐</van-radio>
-                <van-radio name="3">晚餐</van-radio>
+                <van-radio name="10">早餐</van-radio>
+                <van-radio name="20">午餐</van-radio>
+                <van-radio name="30">晚餐</van-radio>
               </van-radio-group>
             </template>
           </van-field>
           <div class="dishes-list">
-            <van-swipe-cell
-              v-for="item in datalist.left"
-              :key="item.uid"
-              :data="item"
-            >
+            <van-swipe-cell v-for="item in zoneList" :key="item.uid">
               <template #right>
                 <van-button square type="danger" text="删除" />
               </template>
@@ -69,6 +65,7 @@
 <script>
 import { Form, Field, Popup, RadioGroup, Radio, Button, SwipeCell } from "vant";
 import DatetimePicker from "@/components/DatetimePicker";
+import { cookingApi } from "@/api";
 export default {
   components: {
     [Button.name]: Button,
@@ -85,12 +82,17 @@ export default {
       visible: false,
       currentDate: null,
       date: new Date(),
-      moment: "2",
+      moment: "20",
+      isRandom: false,
+      randomList: [],
     };
   },
   computed: {
-    datalist() {
-      return this.$store.state.cooking.datalist;
+    zoneList() {
+      if (this.isRandom) {
+        return this.randomList;
+      }
+      return this.$store.state.cooking.zoneList;
     },
   },
   mounted() {},
@@ -101,17 +103,34 @@ export default {
     /**
      * 随机生成
      */
-    randomCooking() {
+    async randomCooking() {
+      this.isRandom = true;
       this.visible = true;
+      let result = await cookingApi.random({
+        number: parseInt(Math.random() * 6 + 2),
+      });
+      this.randomList = result;
     },
     /**
      * 提交
      */
-    submitCooking() {
+    async submitCooking() {
+      this.isRandom = false;
+      this.$store.dispatch("cooking/zoneQuery");
       this.visible = true;
     },
-    onSubmit() {
+    async onSubmit(value) {
       this.visible = false;
+      let formData = {
+        ...value,
+        cookings: this.zoneList,
+        isRandom: this.isRandom,
+      };
+      await cookingApi.submit(formData);
+      //重新加载数据
+      this.$store.dispatch("cooking/reload");
+      //返回列表
+      this.$router.back();
     },
   },
 };

@@ -75,6 +75,7 @@ export default {
           return;
         }
         this.datetime = newValue;
+        this.confirm(newValue);
       },
     },
     show: {

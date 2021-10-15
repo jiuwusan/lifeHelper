@@ -2,7 +2,7 @@
 
 //系统配置
 module.exports = app => {
-    const { UUID, TEXT, STRING, UUIDV1 } = app.Sequelize;
+    const { UUID, TEXT, STRING, UUIDV1, INTEGER } = app.Sequelize;
 
     const Config = app.model.define('cooking', {
         uid: { type: UUID, primaryKey: true, comment: "唯一标识", defaultValue: UUIDV1 },
@@ -12,6 +12,8 @@ module.exports = app => {
         cover: { type: STRING, comment: "封面" },
         image: { type: TEXT, comment: "图片" },
         remark: { type: TEXT, comment: "备注" },
+        sum: { type: INTEGER, defaultValue: 0, comment: "数量" },
+        checked: { type: STRING(2), defaultValue: "00", comment: "选中标记，01=已选中，00=未选中" },
         publish: { type: STRING(2), defaultValue: "00", comment: "上架标记，01=上架，00=下架" },//01=上架，00=下架
         deleted: { type: STRING(2), defaultValue: "00", comment: "删除标记，01=已删除，00=未删除" },//删除
     }, {

@@ -17,6 +17,14 @@ const routes = [
       title: "个人厨房"
     }
   },
+  {
+    path: '/cooking/basket',
+    name: 'cookingBasket',
+    component: () => import('@/views/Cooking/Basket'),
+    meta: {
+      title: "个人厨房"
+    }
+  },
   //下面是 admin 页面
   {
     path: '/admin',
