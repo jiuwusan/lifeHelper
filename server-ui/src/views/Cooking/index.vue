@@ -6,49 +6,14 @@
     @load="pageQuery"
   >
     <div class="list-box">
-      <van-swipe-cell v-for="(item, index) in datalist" :key="item.uid">
-        <template #right v-if="item.status !== '10'">
-          <van-button
-            class="cell-button"
-            square
-            type="danger"
-            text="删除"
-            @click="del(index)"
-          />
-          <van-button
-            class="cell-button"
-            square
-            type="primary"
-            text="完成"
-            @click="finish(index)"
-          />
-        </template>
-        <div class="cuisine-box" @click="showDetail(index)">
-          <div class="left">
-            <div class="date">{{ item.date }}</div>
-            <div class="moment">
-              <van-tag type="success" v-if="item.moment === '10'">早餐</van-tag>
-              <van-tag type="primary" v-if="item.moment === '20'">午餐</van-tag>
-              <van-tag type="warning" v-if="item.moment === '30'">晚餐</van-tag>
-            </div>
-          </div>
-          <div class="right">
-            <van-circle
-              color="#E50012"
-              current-rate="20"
-              size="35"
-              text="20%"
-              v-if="item.status === '99'"
-            />
-            <van-circle
-              current-rate="100%"
-              size="35"
-              text="100"
-              v-if="item.status === '10'"
-            />
-          </div>
-        </div>
-      </van-swipe-cell>
+      <Cuisine
+        v-for="item in datalist"
+        :key="item.uid"
+        :data="item"
+        @finish="finish"
+        @del="del"
+        @detail="showDetail"
+      />
       <van-empty
         image="error"
         description="暂无记录"
@@ -84,16 +49,15 @@
 
 <script>
 import { cookingApi } from "@/api";
-import { SwipeCell, List, Button, Tag, Empty, Circle, Popup } from "vant";
+import { List, Button, Empty, Popup } from "vant";
+import Cuisine from "./Cuisine";
 export default {
   components: {
-    [SwipeCell.name]: SwipeCell,
     [List.name]: List,
     [Button.name]: Button,
-    [Tag.name]: Tag,
     [Empty.name]: Empty,
-    [Circle.name]: Circle,
     [Popup.name]: Popup,
+    Cuisine,
   },
   data() {
     return {
@@ -135,23 +99,21 @@ export default {
         this.reday = true;
       }
     },
-    showDetail(index) {
-      let { datalist = [] } = this;
-      this.cookings = JSON.parse(datalist[index].cookings);
+    showDetail(cookings) {
+      console.log("showDetail---", cookings);
+      this.cookings = cookings;
       this.visible = true;
     },
-    async finish(index) {
-      let { datalist = [] } = this;
+    async finish(uid) {
       await cookingApi.status({
-        uid: datalist[index].uid,
+        uid,
         status: "10",
       });
       this.pageQuery(true);
     },
-    async del(index) {
-      let { datalist = [] } = this;
+    async del(uid) {
       await cookingApi.delete({
-        uid: datalist[index].uid,
+        uid,
       });
       this.pageQuery(true);
     },
@@ -170,38 +132,8 @@ export default {
   .flex();
   flex-direction: column;
   width: 100%;
-}
-
-.cell-button {
-  height: 55px !important;
-}
-
-.cuisine-box {
-  .box();
-  .flex();
   padding: 0px 15px;
-  justify-content: space-between;
-  align-items: center;
-  height: 55px;
-  width: 100%;
   background: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  .left {
-    .box();
-    .flex();
-    align-items: center;
-    .date {
-      font-size: 16px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #231815;
-    }
-    .moment {
-      margin-left: 5px;
-    }
-  }
-  .right {
-  }
 }
 
 .btn-box {
@@ -241,22 +173,26 @@ export default {
 }
 
 .dishes-list {
+  .flex();
+  flex-grow: 1;
+  overflow-y: auto;
   .dishes {
+    .box();
     .flex();
-    //   flex-direction: column;
-    flex-wrap: wrap;
-    padding: 14px;
-    margin-left: -10px;
+    flex-direction: column;
+    padding: 0 14px;
     .dishes-item {
       padding: 4px;
       position: relative;
-      margin: 10px 0 0 10px;
+      margin: 10px 0 0 0;
       border-radius: 4px;
-      border: 1px solid rgba(170, 170, 170, 0.5);
+      // border: 1px solid rgba(170, 170, 170, 0.5);
       .flex();
       .box();
       align-items: center;
-      padding-right: 20px;
+      &:last-child{
+        margin: 10px 0;
+      }
       .cover {
         width: 30px;
         height: 30px;
