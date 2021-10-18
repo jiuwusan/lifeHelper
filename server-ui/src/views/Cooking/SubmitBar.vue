@@ -68,7 +68,16 @@
 </template>
 
 <script>
-import { Form, Field, Popup, RadioGroup, Radio, Button, SwipeCell } from "vant";
+import {
+  Form,
+  Field,
+  Popup,
+  RadioGroup,
+  Radio,
+  Button,
+  SwipeCell,
+  Toast,
+} from "vant";
 import DatetimePicker from "@/components/DatetimePicker";
 import { cookingApi } from "@/api";
 export default {
@@ -125,6 +134,10 @@ export default {
       this.visible = true;
     },
     async onSubmit(value) {
+      if (this.zoneList.length < 1) {
+        Toast.fail("空气不能吃哟");
+        return;
+      }
       this.visible = false;
       let formData = {
         ...value,
