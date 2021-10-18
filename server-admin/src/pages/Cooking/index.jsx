@@ -41,6 +41,22 @@ export default (props) => {
         })
     }
 
+    /**
+     * 删除
+     * @param {*} uid 
+     */
+    const publishOne = (uid, value) => {
+        value = value === "00" ? "01" : "00";
+        Modal.confirm({
+            title: "系统提示",
+            content: "上下架操作，请谨慎操作？",
+            onOk: async () => {
+                await cookingApi.publishById({ uid,value });
+                setReloadKey(Date.now());
+            }
+        })
+    }
+
     const loadData = async (formData) => {
         return await cookingApi.pageQuery(formData);
     }
@@ -80,12 +96,28 @@ export default (props) => {
             }
         },
         {
+            title: '状态',
+            dataIndex: 'publish',
+            key: 'publish',
+            align: 'center',
+            render: (text) => {
+                switch (text) {
+                    case "01":
+                        return <Tag color="blue">上架中</Tag>;
+                    default:
+                        return <Tag color="red">已下架</Tag>;
+                }
+            }
+        },
+        {
             title: '操作',
             key: 'action',
             align: 'center',
             render: (text, record) => (
                 <Space size="small">
                     <Button type="primary" size="small" ghost onClick={() => editOne(record)}>编辑</Button>
+                    {record.publish === "00" && <Button type="primary" size="small" ghost onClick={() => publishOne(record.uid, record.publish)}>上架</Button>}
+                    {record.publish === "01" && <Button type="primary" size="small" danger ghost onClick={() => publishOne(record.uid, record.publish)}>下架</Button>}
                     <Button type="primary" size="small" danger ghost onClick={() => delOne(record.uid)}>删除</Button>
                 </Space>
             ),

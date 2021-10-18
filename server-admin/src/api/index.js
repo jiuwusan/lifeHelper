@@ -97,4 +97,5 @@ export const cookingApi = genApi({
     findById: "/admin/cooking/findById",
     pageQuery: "POST /admin/cooking/pageQuery",
     delById: "POST /admin/cooking/delById",
+    publishById: "POST /admin/cooking/publishById",
 });

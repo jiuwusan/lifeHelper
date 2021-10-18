@@ -6,6 +6,7 @@ module.exports = app => {
     router.get('/admin/cooking/findById', authenticate(), controller.admin.cooking.findById);
     router.post('/admin/cooking/pageQuery', authenticate(), controller.admin.cooking.pageQuery);
     router.post('/admin/cooking/delById', authenticate(), controller.admin.cooking.delById);
+    router.post('/admin/cooking/publishById', controller.admin.cooking.publishById);
     // C端
     router.post('/custom/cooking/pageQuery', controller.custom.cooking.pageQuery);
     router.post('/custom/cooking/append', controller.custom.cooking.append);
@@ -16,5 +17,4 @@ module.exports = app => {
     router.post('/custom/cooking/delete', controller.custom.cooking.delete);
     router.post('/custom/cooking/pageQueryCuisine', controller.custom.cooking.pageQueryCuisine);
     router.post('/custom/cooking/random', controller.custom.cooking.random);
-
 };

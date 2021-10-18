@@ -76,6 +76,22 @@ class CookingController extends BaseController {
         this.result(result);
     }
 
+    /**
+     * 上下架
+     */
+    async publishById() {
+        const { ctx } = this;
+        let { uid, value } = this.validate({
+            uid: "uid不能为空", value: (val) => {
+                if (!val) return "value不能为空";
+                if (!(typeof val === "string" && (val === "00" || val === "01"))) return "value格式错误";
+                return null;
+            }
+        });
+        //只能删除未完成
+        this.result(await ctx.model.Cooking.update({ publish: value }, { where: { uid } }));
+    }
+
 }
 
 module.exports = CookingController;

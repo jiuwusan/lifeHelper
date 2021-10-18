@@ -90,7 +90,7 @@ class CookingController extends BaseController {
      * 修改记录
      */
     async status() {
-        const { ctx,service } = this;
+        const { ctx, service } = this;
         let { uid, status } = this.validate({ uid: "uid不能为空", status: "状态不能为空", });
         if (status === "10") {
             let cus = await ctx.model.Cuisine.findOne({ where: { uid } });
