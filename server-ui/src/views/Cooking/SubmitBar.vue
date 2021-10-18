@@ -35,9 +35,14 @@
             </template>
           </van-field>
           <div class="dishes-list">
-            <van-swipe-cell v-for="item in zoneList" :key="item.uid">
+            <van-swipe-cell v-for="(item, index) in zoneList" :key="item.uid">
               <template #right>
-                <van-button square type="danger" text="删除" />
+                <van-button
+                  square
+                  type="danger"
+                  text="删除"
+                  @click="unchecked(index)"
+                />
               </template>
               <div class="dishes-item">
                 <Smage class="cover" prefix :src="item.cover"></Smage>
@@ -131,6 +136,9 @@ export default {
       this.$store.dispatch("cooking/reload");
       //返回列表
       this.$router.back();
+    },
+    async unchecked(index) {
+      this.zoneList.splice(index, 1);
     },
   },
 };
