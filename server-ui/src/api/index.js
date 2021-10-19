@@ -40,3 +40,12 @@ export const cookingApi = apiv1.genApi({
     random: "post /custom/cooking/random"
 });
 
+export const fmApi = apiv1.genApi({
+    queryAll: "/custom/fm/queryAll"
+});
+
+export const stickApi = apiv1.genApi({
+    queryAll: "/custom/fm/queryAll",
+    complete: "post /custom/cooking/complete"
+});
+

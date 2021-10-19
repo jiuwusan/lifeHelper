@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import cooking from './cooking'
+import fm from './fm'
 export default createStore({
   state: {
   },
@@ -8,6 +9,7 @@ export default createStore({
   actions: {
   },
   modules: {
-    cooking
+    cooking,
+    fm
   }
 })

@@ -26,4 +26,6 @@ module.exports = app => {
   require('./router/config')(app);
   require('./router/valid')(app);
   require('./router/wechat')(app);
+  require('./router/fm')(app);
+  require('./router/stick')(app);
 };

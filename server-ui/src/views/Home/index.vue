@@ -1,43 +1,37 @@
 <template>
   <div class="fn-box">
-    <div
-      class="fn-item"
-      v-for="item in fnList"
-      :key="item.path"
-      @click="toRoute(item.path)"
-    >
-      <Smage prefix class="image" :src="item.cover" />
-      <div class="over">
-        <div class="content">
-          <div class="name">{{ item.name }}</div>
-          <div class="desc" v-if="item.desc">{{ item.desc }}</div>
+    <block v-for="item in fnList" :key="item.uid">
+      <div
+        class="fn-item"
+        @click="toRoute(item.path)"
+        v-if="item.type === '00'"
+      >
+        <Smage prefix class="image" :src="item.cover" />
+        <div class="over">
+          <div class="content">
+            <div class="name">{{ item.name }}</div>
+            <div class="desc" v-if="item.desc">{{ item.desc }}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </block>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      fnList: [
-        {
-          cover: "/assets/image/cooking.jpg",
-          name: "菜谱",
-          desc: "吃什么",
-          path: "/cooking",
-        },
-        {
-          cover: "/assets/image/more.jpg",
-          name: "敬请期待",
-          desc: "",
-          path: "",
-        },
-      ],
-    };
-  },
   components: {},
+  data() {
+    return {};
+  },
+  computed: {
+    fnList() {
+      return this.$store.state.fm.list;
+    },
+  },
+  mounted() {
+    this.$store.dispatch("fm/queryAll");
+  },
   methods: {
     toRoute(path) {
       path && this.$router.push(path);

@@ -100,7 +100,6 @@ export default {
       }
     },
     showDetail(cookings) {
-      console.log("showDetail---", cookings);
       this.cookings = cookings;
       this.visible = true;
     },

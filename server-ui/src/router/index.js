@@ -25,6 +25,14 @@ const routes = [
       title: "个人厨房"
     }
   },
+  {
+    path: '/stick',
+    name: 'stick',
+    component: () => import('@/views/Stick'),
+    meta: {
+      title: "运动丶减肥"
+    }
+  },
   //下面是 admin 页面
   {
     path: '/admin',
