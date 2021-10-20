@@ -1,7 +1,7 @@
 <template>
   <NavBar></NavBar>
   <router-view />
-  <div class="page-bog"></div>
+  <div class="page-bg"></div>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.page-bog {
+.page-bg {
   background: rgba(245, 245, 245, 1);
   position: fixed;
   top: 0;

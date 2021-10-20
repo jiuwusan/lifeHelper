@@ -8,7 +8,6 @@ module.exports = app => {
         uid: { type: UUID, primaryKey: true, comment: "唯一标识", defaultValue: UUIDV1 },
         datetime: { type: STRING, comment: "日期" },
         typeid: { type: STRING, comment: "类型" },
-        userid: { type: STRING, comment: "用户" },
         deleted: { type: STRING(2), defaultValue: "00", comment: "删除标记，01=已删除，00=未删除" },//删除
     }, {
         //防止查询在表名后加s

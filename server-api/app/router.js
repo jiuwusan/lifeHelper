@@ -28,4 +28,5 @@ module.exports = app => {
   require('./router/wechat')(app);
   require('./router/fm')(app);
   require('./router/stick')(app);
+  require('./router/user')(app);
 };

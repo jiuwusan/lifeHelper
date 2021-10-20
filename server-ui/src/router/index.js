@@ -30,7 +30,23 @@ const routes = [
     name: 'stick',
     component: () => import('@/views/Stick'),
     meta: {
-      title: "运动丶减肥"
+      title: "日常记录"
+    }
+  },
+  {
+    path: '/stick/:userid',
+    name: 'stickType',
+    component: () => import('@/views/Stick/Type'),
+    meta: {
+      title: "日常记录"
+    }
+  },
+  {
+    path: '/stick/logs/:typeid',
+    name: 'stickLogs',
+    component: () => import('@/views/Stick/Logs'),
+    meta: {
+      title: "日常记录"
     }
   },
   //下面是 admin 页面

@@ -45,7 +45,13 @@ export const fmApi = apiv1.genApi({
 });
 
 export const stickApi = apiv1.genApi({
-    queryAll: "/custom/fm/queryAll",
-    complete: "post /custom/cooking/complete"
+    queryAll: "/custom/stick/queryAll",
+    complete: "post /custom/stick/complete",
+    queryType: "/custom/stick/type",
+    createType: "post /custom/stick/type/create",
+    deleteType: "post /custom/stick/type/delete",
 });
 
+export const userApi = apiv1.genApi({
+    queryAll: "/custom/user/queryAll"
+});

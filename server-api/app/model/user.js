@@ -13,6 +13,7 @@ module.exports = app => {
     email: { type: STRING(50), comment: "用户邮箱" },//用户邮箱
     phone: { type: STRING(50), comment: "手机号码" },//手机号码
     avatar: { type: STRING(100), comment: "头像路径" },//头像路径
+    role: { type: STRING(32), comment: "角色" },//角色
     salt: { type: STRING(20), comment: "盐加密" },//盐加密
     remark: { type: STRING(500), comment: "备注" },//备注
     login_at: { type: DATE, comment: "最后登录时间" },//最后登录时间
