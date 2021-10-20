@@ -59,6 +59,8 @@ export default {
         ) > -1
       ) {
         day.type = "selected";
+      } else {
+        day.type = "disabled";
       }
       return day;
     },
