@@ -144,7 +144,7 @@ export default {
       if (result.bind === "01") {
         result.list = JSON.parse(result.content);
       }
-      result.bg = `/assets/wifi/bg${parseInt(Math.random() * 5)}.jpeg`;
+      result.bg = `/assets/wifi/bg${parseInt(Math.random() * 10)}.jpeg`;
       //赋值
       this.wifidata = result;
       this.visible = true;
