@@ -1,12 +1,19 @@
 <template>
-  <van-nav-bar v-if="visible" @click-left="leftEvent" @click-right="rightEvent" fixed placeholder z-index="99999">
-    <template #left v-if="!hidden">
+  <van-nav-bar
+    v-if="!hidden"
+    @click-left="leftEvent"
+    @click-right="rightEvent"
+    fixed
+    placeholder
+    z-index="99999"
+  >
+    <template #left v-if="goBack">
       <van-icon name="arrow-left" size="18" class="btn" />返回
     </template>
     <template #title>
       <span class="title">{{ title }}</span>
     </template>
-    <template #right>
+    <template #right v-if="menu">
       <van-icon name="manager" size="20" class="home" v-show="!isAdmin" />
       <van-icon name="wap-home" size="20" class="home" v-show="isAdmin" />
     </template>
@@ -21,6 +28,8 @@ export default {
       visible: true,
       hidden: false,
       title: "",
+      goBack: false,
+      menu: false,
       isAdmin: false,
     };
   },
@@ -32,9 +41,14 @@ export default {
     $route: {
       immediate: true,
       handler(to) {
-        console.log("to--",to);
-        this.hidden = to.path === "/" || to.path === "/admin";
-        this.title = to.meta.title;
+        console.log("to--", to);
+        let {
+          meta: { title, goBack = true, menu = true, hidden = false },
+        } = to || {};
+        this.hidden = hidden;
+        this.title = title;
+        this.goBack = goBack;
+        this.menu = menu;
         this.isAdmin = to.path.indexOf("/admin") === 0;
       },
     },

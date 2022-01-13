@@ -1,6 +1,16 @@
 import { ApiGenerator } from '@jws';
 import config from '@config';
-import { Notification } from "@jws/components";
+import { Toast } from "vant";
+
+/**
+ * 错误提示
+ * @param {*} msg 
+ */
+const toastFail=(msg)=>{
+    Toast.clear();
+    Toast.fail(msg);
+} 
+
 const apiv1 = new ApiGenerator(config.apiPrefix, { //异常处理
     onError: (error) => {
         console.log("请求错误==", error);
@@ -10,11 +20,11 @@ const apiv1 = new ApiGenerator(config.apiPrefix, { //异常处理
             if (res.data.code === 200) {
                 return res.data.data;
             } else {
-                Notification.error(res.data.msg);
+                toastFail(res.data.msg);
                 throw new Error(res);
             }
         } else {
-            Notification.error(res.data.msg);
+            toastFail(res.data.msg);
             throw new Error(res)
         }
     }
@@ -54,4 +64,9 @@ export const stickApi = apiv1.genApi({
 
 export const userApi = apiv1.genApi({
     queryAll: "/custom/user/queryAll"
+});
+
+export const wifiApi = apiv1.genApi({
+    findById: "/custom/qrcode/wifi/findById",
+    checkPassword: "post /custom/qrcode/wifi/checkPassword",
 });

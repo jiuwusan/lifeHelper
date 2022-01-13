@@ -29,4 +29,5 @@ module.exports = app => {
   require('./router/fm')(app);
   require('./router/stick')(app);
   require('./router/user')(app);
+  require('./router/wifi')(app);
 };

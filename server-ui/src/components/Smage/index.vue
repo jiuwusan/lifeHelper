@@ -1,5 +1,5 @@
 <template>
-  <van-image class="smage" :src="fullSrc" :alt="alt || fullSrc" />
+  <van-image class="smage" :src="fullSrc" :fit="fit" :alt="alt || fullSrc" />
 </template>
 
 <script>
@@ -10,6 +10,10 @@ export default {
     alt: {
       type: String,
       default: "",
+    },
+    fit: {
+      type: String,
+      default: "fill",
     },
     src: {
       type: String,

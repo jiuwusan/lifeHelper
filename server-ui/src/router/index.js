@@ -6,7 +6,9 @@ const routes = [
     name: 'Home',
     component: () => import('@/views/Home'),
     meta: {
-      title: "首页"
+      title: "首页",
+      goBack: false,
+      menu: false
     }
   },
   {
@@ -47,6 +49,25 @@ const routes = [
     component: () => import('@/views/Stick/Logs'),
     meta: {
       title: "日常记录"
+    }
+  },
+  {
+    path: '/qrcode/wifi',
+    name: 'qrcodeWifi',
+    component: () => import('@/views/qrcode/wifi'),
+    meta: {
+      title: "Wifi信息",
+      goBack: false,
+      menu: false
+    }
+  },
+  {
+    path: '/qrcode/wifi/edit',
+    name: 'qrcodeWifiEdit',
+    component: () => import('@/views/qrcode/wifi/Edit'),
+    meta: {
+      title: "编辑Wifi信息",
+      menu: false
     }
   },
   //下面是 admin 页面
